@@ -26,6 +26,17 @@ def test_build_pytest_command_adds_filter() -> None:
     ]
 
 
+def test_build_pytest_command_adds_test_id() -> None:
+    command = build_pytest_command(test_id="test_sample.py::test_ok")
+
+    assert command == [
+        "pytest",
+        "--json-report",
+        "--json-report-file=.pytest-report.json",
+        "test_sample.py::test_ok",
+    ]
+
+
 def test_run_pytest_runs_passing_tests_and_writes_json_report(tmp_path: Path) -> None:
     (tmp_path / "test_sample.py").write_text(
         "def test_ok():\n"

@@ -6,35 +6,40 @@ MCP server for deterministic local test execution and normalized test result rep
 
 ## Status
 
-This repository is in Commit 5 scaffold state. The MCP server currently exposes only `health()` while the pytest execution path is built in small slices.
+This repository is a Python-first v1 MCP test runner. It supports bounded pytest execution, Jest command execution, single-test targeting, pytest coverage summaries, and normalized pytest/Jest JSON parsing.
 
 The server does not use an LLM. Test results come from subprocess execution and structured parser output.
 
-## Planned Tools
+## Tools
 
 | Tool | Purpose |
 | --- | --- |
 | `health()` | Returns `ok` for smoke checks. |
-| `run_pytest(path, filter?)` | Run pytest in a bounded working directory and return normalized results. |
-| `run_jest(path, filter?)` | Run Jest and return normalized results. |
-| `run_single_test(test_id)` | Run one framework-specific test target. |
+| `run_pytest(path, test_filter?, timeout_seconds?, cpu_seconds?, memory_mb?)` | Run pytest in a bounded working directory and return raw command output. |
+| `run_jest(path, test_filter?, timeout_seconds?, cpu_seconds?, memory_mb?)` | Run Jest through `npx jest` and return raw command output. |
+| `run_single_test(path, test_id, framework?, timeout_seconds?, cpu_seconds?, memory_mb?)` | Run one pytest node id or one Jest test-name pattern. |
 | `parse_test_output(stdout, framework)` | Normalize test runner JSON output. |
-| `get_coverage_summary(path, framework)` | Return coverage summary data when available. |
+| `get_coverage_summary(path, framework?, timeout_seconds?, cpu_seconds?, memory_mb?)` | Return pytest-cov JSON coverage totals. |
 
 ## Supported Scope
 
 - Python 3.11+ package.
 - FastMCP 2.x server.
-- pytest-first implementation path.
-- Jest support planned for v1 full acceptance.
-- Subprocess sandboxing planned with timeout and POSIX `resource.setrlimit`.
+- pytest execution with JSON report output via `pytest-json-report`.
+- Jest command execution via `npx jest --json --outputFile`.
+- pytest and Jest JSON normalization into one `TestRunResult` schema.
+- Single pytest node id execution and Jest test-name targeting.
+- pytest-cov coverage summary from `.coverage.json`.
+- Subprocess timeout plus POSIX `resource.setrlimit` CPU / memory caps.
 
 ## Current Limitations
 
-- `run_pytest` is not implemented yet.
-- `run_jest` is not implemented yet.
-- Coverage parsing is not implemented yet.
-- v1 will not use Docker; it will use subprocess boundaries and resource limits.
+- v1 does not use Docker. It uses cwd validation, subprocess timeouts, and POSIX resource limits.
+- Resource limits require a POSIX platform that supports `resource.setrlimit`.
+- Jest execution expects Node.js plus project-local or `npx`-resolvable Jest.
+- Jest single-test targeting uses `--testNamePattern`; it does not parse Jest file-specific node ids.
+- Coverage summary is pytest-only in v1.
+- Tools return raw command output for execution; call `parse_test_output` to normalize framework JSON.
 
 ## Local Development
 

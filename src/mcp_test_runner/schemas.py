@@ -18,3 +18,11 @@ class TestRunResult(BaseModel):
     failed: int = 0
     skipped: int = 0
     failures: list[TestFailure] = Field(default_factory=empty_failures)
+
+
+class CoverageSummary(BaseModel):
+    framework: str
+    covered_lines: int
+    total_lines: int
+    percent_covered: float
+    report_path: str | None = None

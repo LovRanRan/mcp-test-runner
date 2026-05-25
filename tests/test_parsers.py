@@ -66,6 +66,45 @@ def test_parse_test_output_maps_pytest_failures() -> None:
     assert failure.traceback == "E assert False"
 
 
+def test_parse_test_output_maps_jest_failures() -> None:
+    stdout = json.dumps(
+        {
+            "numPassedTests": 1,
+            "numFailedTests": 1,
+            "numPendingTests": 1,
+            "testResults": [
+                {
+                    "name": "math.test.js",
+                    "assertionResults": [
+                        {
+                            "fullName": "adds numbers",
+                            "status": "failed",
+                            "failureMessages": ["Expected 3, received 4"],
+                        },
+                        {
+                            "fullName": "subtracts numbers",
+                            "status": "passed",
+                            "failureMessages": [],
+                        },
+                    ],
+                }
+            ],
+        }
+    )
+
+    result = parse_test_output(stdout, "jest")
+
+    assert result.passed == 1
+    assert result.failed == 1
+    assert result.skipped == 1
+    assert len(result.failures) == 1
+    failure = result.failures[0]
+    assert failure.test_id == "adds numbers"
+    assert failure.message == "Expected 3, received 4"
+    assert failure.file == "math.test.js"
+    assert failure.traceback == "Expected 3, received 4"
+
+
 def test_parse_test_output_rejects_unsupported_framework() -> None:
-    with pytest.raises(ValueError, match="Unsupported framework: jest"):
-        parse_test_output("{}", "jest")
+    with pytest.raises(ValueError, match="Unsupported framework: vitest"):
+        parse_test_output("{}", "vitest")
