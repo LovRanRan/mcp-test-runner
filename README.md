@@ -61,6 +61,8 @@ Install dependencies:
 uv sync --extra dev
 ```
 
+The PyPI distribution name is `lovranran-mcp-test-runner` because `mcp-test-runner` is already taken on PyPI. The installed console script remains `mcp-test-runner`.
+
 Run the MCP server:
 
 ```bash

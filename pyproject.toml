@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 packages = ["src/mcp_test_runner"]
 
 [project]
-name = "mcp-test-runner"
+name = "lovranran-mcp-test-runner"
 version = "0.1.0"
 description = "MCP server for running and normalizing local test results."
 readme = "README.md"
