@@ -1,9 +1,17 @@
 import json
 from pathlib import Path
 
-from mcp_test_runner.parsers import _as_mapping, _float_count, _int_count
+from mcp_test_runner.parsers import _as_mapping, _int_count
 from mcp_test_runner.runner import ResourceLimits, run_command
 from mcp_test_runner.schemas import CoverageSummary
+
+
+def _float_count(value: object) -> float:
+    if isinstance(value, int | float):
+        return float(value)
+    if isinstance(value, str):
+        return float(value)
+    return 0.0
 
 
 def build_coverage_command(framework: str = "pytest") -> list[str]:

@@ -38,14 +38,6 @@ def _int_count(value: object) -> int:
     return 0
 
 
-def _float_count(value: object) -> float:
-    if isinstance(value, int | float):
-        return float(value)
-    if isinstance(value, str):
-        return float(value)
-    return 0.0
-
-
 def _parse_pytest_output(stdout: str) -> TestRunResult:
     payload = _as_mapping(json.loads(stdout))
     summary = _as_mapping(payload.get("summary"))
