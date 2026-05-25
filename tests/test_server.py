@@ -8,6 +8,7 @@ from mcp_test_runner.schemas import TestRunResult as ResultSchema
 from mcp_test_runner.server import (
     get_coverage_summary,
     health,
+    main,
     mcp,
     parse_test_output,
     run_jest,
@@ -18,6 +19,19 @@ from mcp_test_runner.server import (
 
 def test_health_returns_ok() -> None:
     assert health() == "ok"
+
+
+def test_main_runs_stdio_transport(monkeypatch) -> None:
+    calls: list[dict[str, object]] = []
+
+    def fake_run(**kwargs: object) -> None:
+        calls.append(kwargs)
+
+    monkeypatch.setattr(mcp, "run", fake_run)
+
+    main()
+
+    assert calls == [{"transport": "stdio"}]
 
 
 def test_run_pytest_tool_returns_command_result(tmp_path: Path) -> None:

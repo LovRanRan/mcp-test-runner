@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.LovRanRan/mcp-test-runner",
+  "title": "MCP Test Runner",
+  "description": "Local test execution and coverage summaries for onboarding agents.",
+  "repository": {
+    "url": "https://github.com/LovRanRan/mcp-test-runner",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "mcp-test-runner",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

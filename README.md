@@ -1,8 +1,20 @@
 # mcp-test-runner
 
+<!-- mcp-name: io.github.LovRanRan/mcp-test-runner -->
+
 MCP server for deterministic local test execution and normalized test result reporting.
 
-`mcp-test-runner` is the verification layer for codebase onboarding agents. It will expose focused MCP tools for running pytest and Jest, parsing test output, and summarizing coverage so downstream agents can mark claims as verified, unverified, or contradicted by real execution.
+`mcp-test-runner` is the verification layer for codebase onboarding agents. It exposes focused MCP tools for running pytest and Jest, parsing test output, and summarizing coverage so downstream agents can mark claims as verified, unverified, or contradicted by real execution.
+
+## Codebase Onboarding Stack
+
+`mcp-test-runner` is the verification layer in a three-server MCP tool stack for Project 6 `wayfinder`, a codebase onboarding agent.
+
+- [`mcp-repo-mapper`](https://github.com/LovRanRan/mcp-repo-mapper) maps repository structure, languages, entry points, framework evidence, and Python dependency edges.
+- [`mcp-ast-explorer`](https://github.com/LovRanRan/mcp-ast-explorer) provides symbol-grounded Python definition, signature, reference, call-chain, and class-hierarchy lookups.
+- [`mcp-test-runner`](https://github.com/LovRanRan/mcp-test-runner) runs local pytest/Jest checks and coverage summaries so agent claims can be verified against execution.
+
+In `wayfinder`, this server turns high-risk code understanding claims into `verified`, `unverified`, or `contradicted` evidence from real test execution.
 
 ## Status
 

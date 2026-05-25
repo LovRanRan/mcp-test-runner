@@ -88,7 +88,7 @@ def get_coverage_summary(
 
 
 def main() -> None:
-    mcp.run()
+    mcp.run(transport="stdio")
 
 
 if __name__ == "__main__":
