@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 from mcp_test_runner.parsers import parse_test_output
@@ -8,6 +9,8 @@ def test_build_pytest_command_includes_json_report_flags() -> None:
     command = build_pytest_command()
 
     assert command == [
+        sys.executable,
+        "-m",
         "pytest",
         "--json-report",
         "--json-report-file=.pytest-report.json",
@@ -18,6 +21,8 @@ def test_build_pytest_command_adds_filter() -> None:
     command = build_pytest_command("smoke")
 
     assert command == [
+        sys.executable,
+        "-m",
         "pytest",
         "--json-report",
         "--json-report-file=.pytest-report.json",
@@ -30,6 +35,8 @@ def test_build_pytest_command_adds_test_id() -> None:
     command = build_pytest_command(test_id="test_sample.py::test_ok")
 
     assert command == [
+        sys.executable,
+        "-m",
         "pytest",
         "--json-report",
         "--json-report-file=.pytest-report.json",
